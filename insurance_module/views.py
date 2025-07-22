@@ -264,7 +264,7 @@ def remove_subuser(request: HttpRequest, id):
     check_user_and_usersub = user.sub_users.filter(id=id).exists()
 
     if check_user_and_usersub:
-        check_insurance = sub.insurances.filter(pay_status="0").exists()
+        check_insurance = sub.insurances.first()
         if not check_insurance:
             SubUser.delete(sub)
             messages.success(request, "زیر مجموعه حذف شد")

@@ -20,23 +20,32 @@ def calculate_price(sender, instance, action, **kwargs):
             if day > instance.insuranceprice.all_value_day:
                 temp = day - int(instance.insuranceprice.all_value_day)
                 if temp > 0:
-                    all_value = int(instance.insuranceprice.all_value_day) * int(
-                        instance.insuranceprice.all_value_price
-                    )
-                    half_value = temp * int(instance.insuranceprice.other_day_price)
+                    # all_value = int(instance.insuranceprice.all_value_day) * int(
+                    #     instance.insuranceprice.all_value_price
+                    # )
+
+                    all_value = int(instance.insuranceprice.all_value_price) * subs
+
+                    half_value = (
+                        temp * int(instance.insuranceprice.other_day_price)
+                    ) * subs
 
                     total = int(all_value) + int(half_value)
 
-                    instance.total_price = (total * subs) + instance.total_price
+                    instance.total_price = total + instance.total_price
 
                 else:
-                    price = day * int(instance.insuranceprice.all_value_price)
+                    # price = day * int(instance.insuranceprice.all_value_price)
 
-                    instance.total_price = (price * subs) + instance.total_price
+                    price = int(instance.insuranceprice.all_value_price)
+
+                    instance.total_price += price * subs
 
             else:
-                price = day * int(instance.insuranceprice.all_value_price)
+                # price = day * int(instance.insuranceprice.all_value_price)
 
-                instance.total_price = (price * subs) + instance.total_price
+                price = int(instance.insuranceprice.all_value_price)
+
+                instance.total_price += price * subs
 
         instance.save()

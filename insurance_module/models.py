@@ -130,22 +130,27 @@ class Insurance(models.Model):
                 if day > self.insuranceprice.all_value_day:
                     temp = day - int(self.insuranceprice.all_value_day)
                     if temp > 0:
-                        all_value = int(self.insuranceprice.all_value_day) * int(
-                            self.insuranceprice.all_value_price
-                        )
-                        half_value = temp * int(self.insuranceprice.other_day_price)
+                        all_value = int(self.insuranceprice.all_value_price) * subs
+
+                        half_value = (
+                            temp * int(self.insuranceprice.other_day_price)
+                        ) * subs
 
                         total = int(all_value) + int(half_value)
 
-                        self.total_price = total * subs
+                        self.total_price = total
 
                     else:
-                        price = day * int(self.insuranceprice.all_value_price)
+                        # price = day * int(self.insuranceprice.all_value_price)
+
+                        price = int(self.insuranceprice.all_value_price)
 
                         self.total_price = price * subs
 
                 else:
-                    price = day * int(self.insuranceprice.all_value_price)
+                    # price = day * int(self.insuranceprice.all_value_price)
+
+                    price = int(self.insuranceprice.all_value_price)
 
                     self.total_price = price * subs
 
